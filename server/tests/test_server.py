@@ -27,7 +27,7 @@ class TestServerClass:
     def test_put(self):
         """Tests HTTP put request method"""
 
-        resp = req.put("http://127.0.0.1:8080/hello/Basil", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
+        resp = req.put("http://127.0.0.1:8080/hello/Nagesh", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
         assert 204==resp.status_code
 
     # A. If username's birthday is in N days: { "message": "Hello, <username>! Your birthday is in N day(s)" } 
@@ -35,7 +35,7 @@ class TestServerClass:
     def test_get(self):
         """Tests HTTP get request method"""
 
-        resp = req.get(settings.get_base_url()+"/hello/Basil")
+        resp = req.get(settings.get_base_url()+"/hello/Nagesh")
         assert 200==resp.status_code
 
         today = datetime.date.today()
@@ -44,9 +44,9 @@ class TestServerClass:
         days = (next_birthday - today).days
 
         if days>0 :
-            assert '{ "message": "Hello, Basil! Your birthday is in %s day(s)" }' % str(days) == resp.text
+            assert '{ "message": "Hello, Nagesh! Your birthday is in %s day(s)" }' % str(days) == resp.text
         else :
-            assert '{ "message": "Hello, Basil! Happy birthday!" }' == resp.text
+            assert '{ "message": "Hello, Nagesh! Happy birthday!" }' == resp.text
 
 
     def test_put_another_user(self):
@@ -82,31 +82,31 @@ class TestServerClass:
     def test_put_wrong_name(self):
         """Tests sending a malformed name"""
 
-        resp = req.put(settings.get_base_url()+"/hello/Basil2", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
+        resp = req.put(settings.get_base_url()+"/hello/Nagesh2", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
         assert 400==resp.status_code
 
     def test_put_wrong_path(self):
         """Tests sending a wrong path"""
 
-        resp = req.put(settings.get_base_url()+"/goodbye/Basil", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
+        resp = req.put(settings.get_base_url()+"/goodbye/Nagesh", data = '{ "dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
         assert 400==resp.status_code
 
     def test_put_broken_json(self):
         """Tests sending a malformed json"""
 
-        resp = req.put(settings.get_base_url()+"/hello/Basil", data = '{ dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
+        resp = req.put(settings.get_base_url()+"/hello/Nagesh", data = '{ dateOfBirth": "2014-05-01" }', headers={'Content-type': 'application/json'})
         assert 400==resp.status_code
 
     def test_put_wrong_date(self):
         """Tests sending a malformed date"""
 
-        resp = req.put(settings.get_base_url()+"/hello/Basil", data = '{ "dateOfBirth": "xxx" }', headers={'Content-type': 'application/json'})
+        resp = req.put(settings.get_base_url()+"/hello/Nagesh", data = '{ "dateOfBirth": "xxx" }', headers={'Content-type': 'application/json'})
         assert 400==resp.status_code
 
     def test_put_wrong_date_key(self):
         """Tests sending wrong JSON key"""
 
-        resp = req.put(settings.get_base_url()+"/hello/Basil", data = '{ "dateOfBIRTH": "2014-05-01" }', headers={'Content-type': 'application/json'})
+        resp = req.put(settings.get_base_url()+"/hello/Nagesh", data = '{ "dateOfBIRTH": "2014-05-01" }', headers={'Content-type': 'application/json'})
         assert 400==resp.status_code
 
 
